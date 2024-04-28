@@ -13,4 +13,9 @@ To run `checkrc`, simply provide the path to the `rc.conf` file as an argument:
 
 ## Expected Output
 
+
+If everything goes as planned, the message will be as follows:
+
+```bash
 Config check passed successfully.
+```

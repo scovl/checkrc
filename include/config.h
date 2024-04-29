@@ -1,11 +1,11 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef _CONFIG_H_
+#define _CONFIG_H
 
 #include <stdbool.h>
 
 typedef struct {
   const char* name;
-  const char* valid_values[10];
+  const char* valid_values[5];
   bool required;
 } ConfigOption;
 

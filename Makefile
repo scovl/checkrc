@@ -1,24 +1,19 @@
-TARGET = main
+TARGET = checkrc
 CC = clang
-CFLAGS = -Wall -Wextra -pedantic -std=c99
 SRCDIR = src
 INCDIR = include
-OBJDIR = obj
 
-SOURCES = src/main.c
-OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+SOURCES = $(wildcard $(SRCDIR)/*.c)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.c=%.o)
 INCLUDES = -I$(INCDIR)
 
 all: $(TARGET)
 
-$(OBJDIR):
-	@mkdir -p $(OBJDIR)
-
 $(TARGET): $(OBJECTS)
-	$(CC) -o $(TARGET) $(OBJECTS)
+	$(CC) -o $@ $(OBJECTS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+%.o: $(SRCDIR)/%.c
+	$(CC) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS) $(TARGET)

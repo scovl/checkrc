@@ -1,9 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>  // Necessário para a função isspace
 #include "config.h"
 
-// Function to validate a config line
+char* trim_space(char* str) {
+    char* end;
+
+    // Trim leading space and optional quotes
+    while (isspace((unsigned char)*str) || *str == '"') str++;
+
+    if (*str == 0)  // All spaces or empty?
+        return str;
+
+    // Trim trailing space and optional quotes
+    end = str + strlen(str) - 1;
+    while (end > str && (isspace((unsigned char)*end) || *end == '"')) end--;
+
+    // Write new null terminator character
+    end[1] = '\0';
+
+    return str;
+}
+
+
 bool validate_option(const char* key, const char* value) {
     for (size_t i = 0; i < sizeof(config_options) / sizeof(ConfigOption); i++) {
         if (strcmp(config_options[i].name, key) == 0) {
@@ -18,8 +38,6 @@ bool validate_option(const char* key, const char* value) {
     return true; // If the key isn't in the list, assume it's all good
 }
 
-
-// Main function that checks the rc.conf file
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Usage: %s /path/to/rc.conf\n", argv[0]);
@@ -39,7 +57,13 @@ int main(int argc, char* argv[]) {
     while (fgets(line, sizeof(line), file)) {
         line_number++;
         char* key = strtok(line, "=");
+        if (key != NULL) {
+            key = trim_space(key);
+        }
         char* value = strtok(NULL, "\n");
+        if (value != NULL) {
+            value = trim_space(value);
+        }
 
         if (value && !validate_option(key, value)) {
             valid = false;

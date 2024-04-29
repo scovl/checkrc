@@ -1,7 +1,6 @@
 # checkrc
 
-The `checkrc` tool ia a command-line tool designed to validate the configuration settings in the FreeBSD `/etc/rc.conf` file. This tool checks each setting against a predefined set of valid values to ensure that the configuration will function as expected when the system boots.
-
+The `checkrc` is a command-line tool designed to validate the configuration settings in the FreeBSD `/etc/rc.conf` file. This tool checks each setting against a predefined set of valid values to ensure that the configuration will function as expected when the system boots.
 
 ## Basic usage
 

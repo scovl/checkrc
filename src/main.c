@@ -3,7 +3,6 @@
 #include <string.h>
 #include "config.h"
 
-
 // Function to validate a config line
 bool validate_option(const char* key, const char* value) {
     for (size_t i = 0; i < sizeof(config_options) / sizeof(ConfigOption); i++) {

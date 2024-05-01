@@ -10,7 +10,9 @@ To run `checkrc`, simply provide the path to the `rc.conf` file as an argument:
 ./checkrc /etc/rc.conf
 ```
 
-![https://raw.githubusercontent.com/scovl/checkrc/main/checkrc.gif](https://raw.githubusercontent.com/scovl/checkrc/main/checkrc.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/scovl/checkrc/main/checkrc.gif" alt="checkrc GIF">
+</p>
 
 
 ## Expected Output

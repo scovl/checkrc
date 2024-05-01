@@ -487,7 +487,7 @@ static const ConfigOption config_options[] = {
     {"jail_enable", TYPE_BOOL, {"YES", "NO", NULL}},
     {"jail_conf", TYPE_STRING, {NULL}},
     {"jail_confwarn", TYPE_BOOL, {"YES", "NO", NULL}},
-    {"jail_parallel_start", TYPE_BOOL, {"YES", "NO", NULL}},
+25    {"jail_parallel_start", TYPE_BOOL, {"YES", "NO", NULL}},
     {"jail_list", TYPE_STRING, {NULL}},
     {"jail_reverse_stop", TYPE_BOOL, {"YES", "NO", NULL}}
 };

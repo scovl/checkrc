@@ -1,12 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include "config.h"
-#include "validation_utils.h"  // Inclui o novo cabeçalho para as funções de validação
+#include "validation_utils.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Usage: %s /path/to/rc.conf\n", argv[0]);
         return 1;
+    }
+
+    if (access(argv[1], R_OK) != 0) {
+      perror("Error accessing file");
+      return 1;
     }
 
     FILE* file = fopen(argv[1], "r");
@@ -21,11 +28,19 @@ int main(int argc, char* argv[]) {
 
     while (fgets(line, sizeof(line), file)) {
         line_number++;
+
+        if(strchr(line, '=') == NULL) {
+          fprintf(stderr, "Warning: Line %d is not in 'key=value' format.\n",line_number);
+          continue;
+        }
+
         char* key = strtok(line, "=");
+
         if (key != NULL) {
             key = trim_space(key);
         }
         char* value = strtok(NULL, "\n");
+
         if (value != NULL) {
             value = trim_space(value);
         }

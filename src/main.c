@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include <ctype.h>
 #include "config.h"
 #include "validation_utils.h"
 
@@ -9,11 +9,6 @@ int main(int argc, char* argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Usage: %s /path/to/rc.conf\n", argv[0]);
         return 1;
-    }
-
-    if (access(argv[1], R_OK) != 0) {
-      perror("Error accessing file");
-      return 1;
     }
 
     FILE* file = fopen(argv[1], "r");
@@ -27,28 +22,30 @@ int main(int argc, char* argv[]) {
     bool valid = true;
 
     while (fgets(line, sizeof(line), file)) {
-        line_number++;
+      line_number++;
 
-        if(strchr(line, '=') == NULL) {
-          fprintf(stderr, "Warning: Line %d is not in 'key=value' format.\n",line_number);
-          continue;
-        }
+      char *temp_line = line;
+      while (*temp_line && isspace((unsigned char)*temp_line)) temp_line++;
+      if (*temp_line == '\0' || *temp_line == '#') continue;
 
-        char* key = strtok(line, "=");
+      if (strchr(line, '=') == NULL) {
+        fprintf(stderr, "Warning: Line %d is not in 'key=value' format.\n", line_number);
+        continue;
+      }
 
-        if (key != NULL) {
-            key = trim_space(key);
-        }
-        char* value = strtok(NULL, "\n");
+      char* key = strtok(line, "=");
+      if (key != NULL) {
+        key = trim_space(key);
+      }
+      char* value = strtok(NULL, "\n");
+      if (value != NULL) {
+        value = trim_space(value);
+      }
 
-        if (value != NULL) {
-            value = trim_space(value);
-        }
-
-        if (value && !validate_option(key, value)) {
-            valid = false;
-            printf("Error on line %d: '%s' is not a valid value for '%s'\n", line_number, value, key);
-        }
+      if (value && !validate_option(key, value)) {
+        valid = false;
+        printf("Error on line %d: '%s' is not a valid value for '%s'\n", line_number, value, key);
+      }
     }
 
     fclose(file);

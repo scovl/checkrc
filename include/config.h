@@ -392,7 +392,7 @@ static const ConfigOption config_options[] = {
     {"allscreens_flags", TYPE_STRING, {NULL}},
     {"allscreens_kbdflags", TYPE_STRING, {NULL}},
     {"mta_start_script", TYPE_STRING, {NULL}},
-    {"sendmail_enable", TYPE_BOOL, {"YES", "NO", NULL}},
+    {"sendmail_enable", TYPE_BOOL, {"YES", "NO", "NONE", NULL}},
     {"sendmail_pidfile", TYPE_STRING, {NULL}},
     {"sendmail_procname", TYPE_STRING, {NULL}},
     {"sendmail_flags", TYPE_STRING, {NULL}},

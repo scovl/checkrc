@@ -29,6 +29,7 @@
 *.dylib
 
 # Executables
+checkrc
 *.exe
 *.out
 *.app

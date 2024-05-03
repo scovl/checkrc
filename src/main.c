@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 
     char line[1024];
     int line_number = 0;
-    bool valid = true;
+    int valid = 0;
 
     while (fgets(line, sizeof(line), file)) {
       line_number++;
@@ -43,18 +43,18 @@ int main(int argc, char* argv[]) {
       }
 
       if (value && !validate_option(key, value)) {
-        valid = false;
+        valid++;
         printf("Error on line %d: '%s' is not a valid value for '%s'\n", line_number, value, key);
       }
     }
 
     fclose(file);
 
-    if (valid) {
+    if (valid == 0) {
         printf("Config check passed successfully.\n");
     } else {
-        printf("Config check failed with errors listed above.\n");
+        printf("Config check failed with %d error(s).\n", valid);
     }
 
-    return 0;
+    return (valid != 0);
 }

@@ -11,7 +11,7 @@ To run `checkrc`, simply provide the path to the `rc.conf` file as an argument:
 ```
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/scovl/checkrc/main/checkrc.gif" alt="checkrc GIF">
+  <img src="https://raw.githubusercontent.com/scovl/checkrc/main/demo.gif" alt="checkrc GIF">
 </p>
 
 

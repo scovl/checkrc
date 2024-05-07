@@ -34,7 +34,7 @@ bool validate_option(const char* key, const char* value) {
                     return true;
                 case TYPE_BOOL:
                     for (int j = 0; config_options[i].valid_values[j] != NULL; j++) {
-                        if (strcmp(config_options[i].valid_values[j], value) == 0) {
+                        if (strcasecmp(config_options[i].valid_values[j], value) == 0) {
                             return true;
                         }
                     }

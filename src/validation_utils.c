@@ -19,7 +19,14 @@ char* trim_space(char* str) {
     return str;
 }
 
-bool validate_option(const char* key, const char* value) {
+bool validate_option(const char* key, char* value) {
+    char* comment = strchr(value, '#');
+    if (comment) {
+        *comment = '\0';
+    }
+
+    value = trim_space(value);
+
     for (size_t i = 0; i < sizeof(config_options) / sizeof(ConfigOption); i++) {
         if (strcmp(config_options[i].name, key) == 0) {
             switch (config_options[i].type) {

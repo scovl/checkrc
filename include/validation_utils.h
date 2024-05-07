@@ -5,6 +5,6 @@
 #include "config.h"
 
 char* trim_space(char* str);
-bool validate_option(const char* key, const char* value);
+bool validate_option(const char* key, char* value);
 
 #endif

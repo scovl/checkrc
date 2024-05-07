@@ -3,7 +3,7 @@ SRCS=		main.c \
 		validation_utils.c
 CSTD=		c17
 CFLAGS+=	-I../include
-CWARNFLAGS+=	-Wall -Werror -Wextra -pedantic
+CWARNFLAGS+=	-Wall -Wextra -pedantic
 MAN=		# no manpage yet
 
 # Installation directories

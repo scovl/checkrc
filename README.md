@@ -1,6 +1,6 @@
 # checkrc
 
-The `checkrc` is a command-line tool designed to validate the configuration settings in the FreeBSD `/etc/rc.conf` file. This tool checks each setting against a predefined set of valid values to ensure that the configuration will function as expected when the system boots. The current way to debug errors in `/etc/rc.conf` if throught the shell command line `sh -n /etc/rc.conf && echo $?` for return error code in output. Horewer, this output is poor.
+The `checkrc` is a command-line tool designed to validate the configuration settings in the FreeBSD `/etc/rc.conf` file. This tool checks each setting against a predefined set of valid values to ensure that the configuration will function as expected when the system boots. The current way to debug errors in `/etc/rc.conf` is through the shell command line `sh -n /etc/rc.conf && echo $?` for return error code in output. However, this output is poor.
 
 ## Basic usage
 
@@ -47,9 +47,9 @@ Here’s how you can get started:
 4. **Build the project** to see if everything works before you start making changes:
 
    ```bash
-   gmake all
+   make all
    ```
-This command compiles and builds the entire project.
+This command compiles and builds the entire project using FreeBSD `make`.
 
 5. **Make your changes** and commit them:
    ```bash
@@ -59,9 +59,9 @@ This command compiles and builds the entire project.
 
 6. **Clean your build** if you need to remove all compiled files before starting fresh:
    ```bash
-   gmake clean
+   make clean
    ```
-   Use this command to clean up the project directory, ensuring that no build artifacts or files are left behind.
+   Use this command to clean up the project directory, ensuring that no build artifacts or files are left behind, utilizing FreeBSD `make`.
 
 7. **Push your branch** up to your fork:
    ```bash

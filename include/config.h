@@ -1,21 +1,18 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-typedef enum {
-  TYPE_STRING,
-  TYPE_INT,
-  TYPE_BOOL
-} ValueType;
+typedef enum { TYPE_STRING, TYPE_INT, TYPE_BOOL } ValueType;
 
-#define BOOLEANS {"YES", "NO", NULL}
+#define BOOLEANS \
+  { "YES", "NO", NULL }
 
 typedef struct {
-    const char* name;
-    ValueType type;
-    const char* valid_values[5];
+  const char* name;
+  ValueType type;
+  const char* valid_values[5];
 } ConfigOption;
 
 static const ConfigOption config_options[] = {
@@ -336,27 +333,35 @@ static const ConfigOption config_options[] = {
     {"rfcomm_pppd_server_two_channel", TYPE_STRING, {NULL}},
     {"ubthidhci_enable", TYPE_BOOL, BOOLEANS},
     {"netwait_enable", TYPE_BOOL, BOOLEANS},
-    // {"netwait_ip", TYPE_STRING, {NULL}},  // Uncomment to enable and set netwait_ip
+    // {"netwait_ip", TYPE_STRING, {NULL}},  // Uncomment to enable and set
+    // netwait_ip
     {"netwait_timeout", TYPE_INT, {NULL}},
-    // {"netwait_if", TYPE_STRING, {NULL}},  // Uncomment to enable and set netwait_if
+    // {"netwait_if", TYPE_STRING, {NULL}},  // Uncomment to enable and set
+    // netwait_if
     {"netwait_if_timeout", TYPE_INT, {NULL}},
     {"icmp_bmcastecho", TYPE_BOOL, BOOLEANS},
     {"ipv6_network_interfaces", TYPE_STRING, {"auto", "none", NULL}},
     {"ipv6_activate_all_interfaces", TYPE_BOOL, BOOLEANS},
     {"ipv6_defaultrouter", TYPE_BOOL, BOOLEANS},
-    // {"ipv6_defaultrouter", TYPE_STRING, {NULL}},  // Uncomment to set ipv6_defaultrouter
-    // {"ipv6_defaultrouter_fibN", TYPE_STRING, {NULL}},  // Uncomment to set ipv6_defaultrouter_fibN
+    // {"ipv6_defaultrouter", TYPE_STRING, {NULL}},  // Uncomment to set
+    // ipv6_defaultrouter
+    // {"ipv6_defaultrouter_fibN", TYPE_STRING, {NULL}},  // Uncomment to set
+    // ipv6_defaultrouter_fibN
     {"ipv6_static_routes", TYPE_STRING, {NULL}},
-    // {"ipv6_static_routes", TYPE_STRING, {NULL}},  // Uncomment to set ipv6_static_routes
-    // {"ipv6_route_xxx", TYPE_STRING, {NULL}},  // Uncomment to set ipv6_route_xxx
+    // {"ipv6_static_routes", TYPE_STRING, {NULL}},  // Uncomment to set
+    // ipv6_static_routes
+    // {"ipv6_route_xxx", TYPE_STRING, {NULL}},  // Uncomment to set
+    // ipv6_route_xxx
     {"ipv6_gateway_enable", TYPE_BOOL, BOOLEANS},
     {"ipv6_cpe_wanif", TYPE_BOOL, BOOLEANS},
     {"ipv6_privacy", TYPE_BOOL, BOOLEANS},
     {"route6d_enable", TYPE_BOOL, BOOLEANS},
     {"route6d_program", TYPE_STRING, {NULL}},
     {"route6d_flags", TYPE_STRING, {NULL}},
-    // {"ipv6_network_interfaces", TYPE_STRING, {NULL}},  // Uncomment to set ipv6_network_interfaces
-    // {"ipv6_prefix_emX", TYPE_STRING, {NULL}},  // Uncomment to set ipv6_prefix_emX
+    // {"ipv6_network_interfaces", TYPE_STRING, {NULL}},  // Uncomment to set
+    // ipv6_network_interfaces
+    // {"ipv6_prefix_emX", TYPE_STRING, {NULL}},  // Uncomment to set
+    // ipv6_prefix_emX
     {"ipv6_default_interface", TYPE_BOOL, BOOLEANS},
     {"rtsol_flags", TYPE_STRING, {NULL}},
     {"rtsold_enable", TYPE_BOOL, BOOLEANS},
@@ -371,7 +376,9 @@ static const ConfigOption config_options[] = {
     {"ipv6_ipfilter_rules", TYPE_STRING, {NULL}},
     {"ip6addrctl_enable", TYPE_BOOL, BOOLEANS},
     {"ip6addrctl_verbose", TYPE_BOOL, BOOLEANS},
-    {"ip6addrctl_policy", TYPE_STRING, {"ipv4_prefer", "ipv6_prefer", "AUTO", NULL}},
+    {"ip6addrctl_policy",
+     TYPE_STRING,
+     {"ipv4_prefer", "ipv6_prefer", "AUTO", NULL}},
     {"keyboard", TYPE_STRING, {NULL}},
     {"keymap", TYPE_STRING, {"NO", NULL}},
     {"keyrate", TYPE_STRING, {"slow", "normal", "fast", "NO", NULL}},
@@ -491,7 +498,6 @@ static const ConfigOption config_options[] = {
     {"jail_confwarn", TYPE_BOOL, BOOLEANS},
     {"jail_parallel_start", TYPE_BOOL, BOOLEANS},
     {"jail_list", TYPE_STRING, {NULL}},
-    {"jail_reverse_stop", TYPE_BOOL, BOOLEANS}
-};
+    {"jail_reverse_stop", TYPE_BOOL, BOOLEANS}};
 
 #endif

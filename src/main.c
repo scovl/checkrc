@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "config.h"
 #include "validation_utils.h"
@@ -10,18 +11,30 @@
 
 int process_line(char* line, int line_number);
 
-int main(int argc, char* argv[]) {
-  if (argc != 2) {
-    fprintf(stderr, "Usage: %s /path/to/rc.conf\n", argv[0]);
-    return EXIT_FAILURE;
-  }
+int main(int argc, char *argv[]) {
+    const char *default_file = "/etc/rc.conf";
+    const char *file_path;
 
-  FILE* file = fopen(argv[1], "r");
-  if (!file) {
-    fprintf(stderr, "Failed to open file: %s\n", argv[1]);
-    perror("Error");
-    return EXIT_FAILURE;
-  }
+    if (argc == 1) {
+        file_path = default_file;
+        if (access(file_path, R_OK) != 0) {
+            fprintf(stderr, "Default file %s does not exist or is not readable.\n", file_path);
+            perror("Error");
+            return EXIT_FAILURE;
+        }
+    } else if (argc == 2) {
+        file_path = argv[1];
+    } else {
+        fprintf(stderr, "Usage: %s [optional:/path/to/rc.conf]\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    FILE *file = fopen(file_path, "r");
+    if (!file) {
+        fprintf(stderr, "Failed to open file: %s\n", file_path);
+        perror("Error");
+        return EXIT_FAILURE;
+    }
 
   char line[MAX_LINE_LENGTH];
   int line_number = 0;
@@ -69,3 +82,4 @@ int process_line(char* line, int line_number) {
 
   return EXIT_FAILURE;
 }
+

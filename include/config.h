@@ -306,7 +306,7 @@ static const ConfigOption config_options[] = {
     {"nis_ypldap_flags", TYPE_STRING, {NULL}},
     {"bsnmpd_enable", TYPE_BOOL, BOOLEANS},
     {"bsnmpd_flags", TYPE_STRING, {NULL}},
-    {"defaultrouter", TYPE_BOOL, BOOLEANS},
+    {"defaultrouter", TYPE_STRING, {NULL}},
     {"static_arp_pairs", TYPE_STRING, {NULL}},
     {"static_ndp_pairs", TYPE_STRING, {NULL}},
     {"static_routes", TYPE_STRING, {NULL}},
@@ -342,7 +342,7 @@ static const ConfigOption config_options[] = {
     {"icmp_bmcastecho", TYPE_BOOL, BOOLEANS},
     {"ipv6_network_interfaces", TYPE_STRING, {"auto", "none", NULL}},
     {"ipv6_activate_all_interfaces", TYPE_BOOL, BOOLEANS},
-    {"ipv6_defaultrouter", TYPE_BOOL, BOOLEANS},
+    {"ipv6_defaultrouter", TYPE_STRING, {NULL}},
     // {"ipv6_defaultrouter", TYPE_STRING, {NULL}},  // Uncomment to set
     // ipv6_defaultrouter
     // {"ipv6_defaultrouter_fibN", TYPE_STRING, {NULL}},  // Uncomment to set

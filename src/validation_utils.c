@@ -19,6 +19,25 @@ char* trim_space(char* str) {
     return str;
 }
 
+static bool is_valid_ipv4(const char* str) {
+    unsigned int a, b, c, d;
+    char extra;
+    return sscanf(str, "%u.%u.%u.%u%c", &a, &b, &c, &d, &extra) == 4 &&
+           a <= 255 && b <= 255 && c <= 255 && d <= 255;
+}
+
+static bool is_valid_ipv6(const char* str) {
+    // Basic validation - checks for presence of colons and valid hex digits
+    if (!strchr(str, ':')) return false;
+    
+    for (const char* p = str; *p; p++) {
+        if (!(*p == ':' || isxdigit(*p))) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool validate_option(const char* key, char* value) {
     char* comment = strchr(value, '#');
     if (comment) {
@@ -29,6 +48,14 @@ bool validate_option(const char* key, char* value) {
 
     for (size_t i = 0; i < sizeof(config_options) / sizeof(ConfigOption); i++) {
         if (strcmp(config_options[i].name, key) == 0) {
+            // Special handling for router configurations
+            if (strcmp(key, "defaultrouter") == 0) {
+                return is_valid_ipv4(value) || strcmp(value, "NO") == 0;
+            }
+            if (strcmp(key, "ipv6_defaultrouter") == 0) {
+                return is_valid_ipv6(value) || strcmp(value, "NO") == 0;
+            }
+
             switch (config_options[i].type) {
                 case TYPE_STRING:
                     return true;

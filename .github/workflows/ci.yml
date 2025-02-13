@@ -3,6 +3,8 @@ name: CI
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v*' # Triggers workflow when tags starting with 'v' are created
   pull_request:
     branches: [ "main" ]
 
@@ -20,3 +22,11 @@ jobs:
             CFLAGS="-O2 -pipe -Wshadow -Werror" make
             DESTDIR="${HOME}/work" make install
             ${HOME}/work/usr/local/bin/checkrc /etc/rc.conf
+            # Copy binary to an accessible location
+            cp ${HOME}/work/usr/local/bin/checkrc ./checkrc
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: checkrc

@@ -7,3 +7,10 @@ MAKEOBJDIR=	${.CURDIR}/obj
 all:		obj
 
 .include <bsd.obj.mk>
+
+test: all
+	$(CC) $(CFLAGS) -I./include -o tests/unit/test_validation tests/unit/test_validation.c src/validation_utils.c
+	./tests/unit/test_validation
+	sh tests/integration/test_checkrc.sh
+
+.PHONY: test

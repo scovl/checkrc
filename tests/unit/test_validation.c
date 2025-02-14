@@ -3,8 +3,6 @@
 #include "minunit.h"
 #include "validation_utils.h"
 
-int tests_run = 0;
-
 MU_TEST(test_ipv4_validation) {
     mu_check(validate_option("defaultrouter", "192.168.1.1") == true);
     mu_check(validate_option("defaultrouter", "10.0.0.1") == true);

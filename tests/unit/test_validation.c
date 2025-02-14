@@ -5,14 +5,6 @@
 
 int tests_run = 0;
 
-void test_setup(void) {
-    // Setup code if needed before each test
-}
-
-void test_teardown(void) {
-    // Cleanup code if needed after each test
-}
-
 MU_TEST(test_ipv4_validation) {
     mu_check(validate_option("defaultrouter", "192.168.1.1") == true);
     mu_check(validate_option("defaultrouter", "10.0.0.1") == true);

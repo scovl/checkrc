@@ -5,30 +5,35 @@
 #include <stdlib.h>
 
 static int tests_run = 0;
+static int tests_failed = 0;
 
 #define MU_ASSERT(message, test) do { if (!(test)) return message; } while (0)
 #define mu_check(test) MU_ASSERT(#test, test)
 
-#define MU_TEST(name) static char* name(void)
-#define MU_TEST_SUITE(name) static char* name(void)
+#define MU_TEST(name) static const char* name(void)
+#define MU_TEST_SUITE(name) static const char* name(void)
 
 #define MU_RUN_TEST(test) do { \
-    char *message = test(); \
+    const char *message = test(); \
     tests_run++; \
     if (message) { \
         printf("FAIL: %s\n", message); \
-        return message; \
+        tests_failed++; \
     } \
 } while (0)
 
 #define MU_RUN_SUITE(suite) do { \
-    char *result = suite(); \
-    if (result != 0) { \
-        printf("Test failed: %s\n", result); \
-        return EXIT_FAILURE; \
+    const char *result = suite(); \
+    if (result) { \
+        printf("Suite failed: %s\n", result); \
+        tests_failed++; \
     } \
 } while (0)
 
-#define MU_REPORT() printf("\nTests run: %d\nAll tests PASSED\n", tests_run)
+#define MU_REPORT() do { \
+    printf("\nTests run: %d\n", tests_run); \
+    printf("Tests failed: %d\n", tests_failed); \
+    return tests_failed ? EXIT_FAILURE : EXIT_SUCCESS; \
+} while (0)
 
 #endif 

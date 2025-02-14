@@ -30,10 +30,9 @@ static int tests_failed = 0;
     } \
 } while (0)
 
-#define MU_REPORT() do { \
-    printf("\nTests run: %d\n", tests_run); \
-    printf("Tests failed: %d\n", tests_failed); \
-    return tests_failed ? EXIT_FAILURE : EXIT_SUCCESS; \
-} while (0)
+#define MU_REPORT() \
+    (printf("\nTests run: %d\n", tests_run), \
+     printf("Tests failed: %d\n", tests_failed), \
+     tests_failed ? EXIT_FAILURE : EXIT_SUCCESS)
 
 #endif 

@@ -1,16 +1,17 @@
-SUBDIR=		src
+CC=cc
+CFLAGS=-O2 -pipe -Wshadow -Werror -I./include
 
-# Force bsd.obj.mk to create an object dir for us before building
-MAKEOBJDIR=	${.CURDIR}/obj
-.MAKEOVERRIDES=	MAKEOBJDIR
-.OBJDIR=	${MAKEOBJDIR}
-all:		obj
+all: checkrc
 
-.include <bsd.obj.mk>
+checkrc:
+	$(CC) $(CFLAGS) src/main.c src/validation_utils.c -o checkrc
 
-test: all
-	$(CC) $(CFLAGS) -I./include -o tests/unit/test_validation tests/unit/test_validation.c src/validation_utils.c
+test: checkrc
+	$(CC) $(CFLAGS) -o tests/unit/test_validation tests/unit/test_validation.c src/validation_utils.c
 	./tests/unit/test_validation
 	sh tests/integration/test_checkrc.sh
 
-.PHONY: test
+clean:
+	rm -f checkrc tests/unit/test_validation
+
+.PHONY: all test clean

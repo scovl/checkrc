@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "validation_utils.h"
+#include <arpa/inet.h>
 
 char *trim_space(char *str) {
   char *end;
@@ -28,48 +29,43 @@ static bool is_valid_ipv4(const char *value) {
   return a <= 255 && b <= 255 && c <= 255 && d <= 255;
 }
 
+static bool is_valid_hostname(const char *value) {
+  size_t len = strlen(value);
+  if (len == 0 || len > 253) return false;
+  if (value[0] == '.' || value[len - 1] == '.' ||
+      value[0] == '-' || value[len - 1] == '-')
+    return false;
+  bool has_alnum = false;
+  for (size_t i = 0; i < len; i++) {
+    char c = value[i];
+    if (!(isalnum((unsigned char)c) || c == '-' || c == '.')) return false;
+    if (isalnum((unsigned char)c)) has_alnum = true;
+  }
+  return has_alnum;
+}
+
+static bool is_valid_ipv6_address(const char *value) {
+  unsigned char buf[16];
+  return inet_pton(AF_INET6, value, buf) == 1;
+}
+
 static bool is_valid_ipv6(const char *value) {
-  const char *s = value;
-  int colons = 0;
-  bool double_colon = false;
-  unsigned int val;
-  
-  // Handle empty string
-  if (!*s) return false;
-  
-  // Handle starting with :
-  if (*s == ':') {
-    if (s[1] != ':') return false;
-    double_colon = true;
-    s += 2;
-    colons++;
-  }
-
-  while (*s) {
-    if (*s == ':') {
-      colons++;
-      if (s[1] == ':') {
-        if (double_colon) return false;  // Only one :: allowed
-        double_colon = true;
-        s++;
-      }
-      s++;
-      continue;
+  const char *percent = strchr(value, '%');
+  char addr[128];
+  if (percent) {
+    size_t len = percent - value;
+    if (len >= sizeof(addr)) return false;
+    memcpy(addr, value, len);
+    addr[len] = '\0';
+    value = addr;
+    const char *iface = percent + 1;
+    if (*iface == '\0') return false;
+    for (const char *p = iface; *p; p++) {
+      if (!(isalnum((unsigned char)*p) || *p == '_' || *p == '-' || *p == '.'))
+        return false;
     }
-    
-    // Read up to 4 hex digits
-    val = 0;
-    for (int i = 0; i < 4 && isxdigit((unsigned char)*s); i++, s++) {
-      val = (val << 4) | (isdigit(*s) ? *s - '0' : 
-             (tolower(*s) - 'a' + 10));
-    }
-    if (val > 0xffff) return false;
-    
-    if (*s && *s != ':') return false;
   }
-
-  // Check number of segments
-  return double_colon ? colons <= 7 : colons == 7;
+  return is_valid_ipv6_address(value);
 }
 
 bool validate_option(const char *key, char *value) {
@@ -86,9 +82,17 @@ bool validate_option(const char *key, char *value) {
         case TYPE_STRING:
           // Special handling for router options
           if (strcmp(key, "defaultrouter") == 0) {
-            return value[0] == '\0' || is_valid_ipv4(value);
+            if (value[0] == '\0' || strcasecmp(value, "no") == 0)
+              return true;
+            if (is_valid_ipv4(value)) return true;
+            if (strspn(value, "0123456789.") == strlen(value))
+              return false;
+            return is_valid_hostname(value);
           } else if (strcmp(key, "ipv6_defaultrouter") == 0) {
-            return value[0] == '\0' || is_valid_ipv6(value);
+            if (value[0] == '\0' || strcasecmp(value, "no") == 0)
+              return true;
+            if (is_valid_ipv6(value)) return true;
+            return is_valid_hostname(value);
           }
           return true;
         case TYPE_INT:

@@ -4,6 +4,7 @@
 
 #include "validation_utils.h"
 #include <arpa/inet.h>
+#include <sys/socket.h>
 
 char *trim_space(char *str) {
   char *end;

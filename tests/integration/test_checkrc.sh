@@ -17,4 +17,4 @@ if [ $? -eq 0 ]; then
 fi
 
 echo "All integration tests passed successfully"
-exit 0 
+exit 0

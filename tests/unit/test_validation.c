@@ -89,6 +89,7 @@ MU_TEST_SUITE(test_suite) {
     MU_RUN_TEST(test_boolean_validation);
     MU_RUN_TEST(test_integer_validation);
     MU_RUN_TEST(test_string_validation);
+    return NULL;
 }
 
 int main() {

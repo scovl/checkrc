@@ -3,62 +3,15 @@ name: CI
 on:
   push:
     branches: [ "main" ]
-    tags: [ "v*" ]
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  contents: write
-
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    name: Build & Test (FreeBSD)
     steps:
       - uses: actions/checkout@v4
-
-      - name: Build on FreeBSD
-        uses: vmactions/freebsd-vm@v1
-        with:
-          usesh: true
-          mem: 2048
-          prepare: |
-            pkg install -y bmake clang
-          run: |
-            echo "[freebsd] uname:" ; uname -a
-            echo "[freebsd] clang:" ; clang --version || true
-            echo "[freebsd] bmake:" ; bmake -V .MAKE || true
-            echo "[freebsd] ls before:" ; ls -lah
-            bmake clean
-            bmake all
-            bmake test
-            echo "[freebsd] file checkrc:" ; file checkrc
-            strip -s checkrc
-            sha256 checkrc > SHA256SUMS
-            echo "[freebsd] ls after:" ; ls -lah
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkrc
-          path: |
-            checkrc
-            SHA256SUMS
-
-  release:
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: checkrc
-          path: dist
-      - name: Show dist
-        run: ls -lah dist
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            dist/checkrc
-            dist/SHA256SUMS
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y bmake
+      - run: bmake test

@@ -67,7 +67,7 @@ int process_line(char* line, int line_number) {
   if (!delimiter) {
     fprintf(stderr, "Warning: Line %d is not in 'key=value' format.\n",
             line_number);
-    return EXIT_SUCCESS;
+    return 0;
   }
 
   *delimiter = '\0';
@@ -77,9 +77,9 @@ int process_line(char* line, int line_number) {
   if (value && !validate_option(key, value)) {
     printf("Error on line %d: '%s' is not a valid value for '%s'\n",
            line_number, value, key);
-    return EXIT_SUCCESS;
+    return 0;
   }
 
-  return EXIT_FAILURE;
+  return 1;
 }
 

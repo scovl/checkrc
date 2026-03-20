@@ -119,8 +119,8 @@ static const ConfigOption config_options[] = {
     {"firewall_pmod_enable", TYPE_BOOL, BOOLEANS},
     {"dummynet_enable", TYPE_BOOL, BOOLEANS},
     {"ipfw_netflow_enable", TYPE_BOOL, BOOLEANS},
-    {"ip_portrange_first", TYPE_BOOL, BOOLEANS},
-    {"ip_portrange_last", TYPE_BOOL, BOOLEANS},
+    {"ip_portrange_first", TYPE_INT, {NULL}},
+    {"ip_portrange_last", TYPE_INT, {NULL}},
     {"ike_enable", TYPE_BOOL, BOOLEANS},
     {"ike_program", TYPE_STRING, {NULL}},
     {"ike_flags", TYPE_STRING, {NULL}},
@@ -353,7 +353,7 @@ static const ConfigOption config_options[] = {
     // {"ipv6_route_xxx", TYPE_STRING, {NULL}},  // Uncomment to set
     // ipv6_route_xxx
     {"ipv6_gateway_enable", TYPE_BOOL, BOOLEANS},
-    {"ipv6_cpe_wanif", TYPE_BOOL, BOOLEANS},
+    {"ipv6_cpe_wanif", TYPE_STRING, {NULL}},
     {"ipv6_privacy", TYPE_BOOL, BOOLEANS},
     {"route6d_enable", TYPE_BOOL, BOOLEANS},
     {"route6d_program", TYPE_STRING, {NULL}},
@@ -362,7 +362,7 @@ static const ConfigOption config_options[] = {
     // ipv6_network_interfaces
     // {"ipv6_prefix_emX", TYPE_STRING, {NULL}},  // Uncomment to set
     // ipv6_prefix_emX
-    {"ipv6_default_interface", TYPE_BOOL, BOOLEANS},
+    {"ipv6_default_interface", TYPE_STRING, {NULL}},
     {"rtsol_flags", TYPE_STRING, {NULL}},
     {"rtsold_enable", TYPE_BOOL, BOOLEANS},
     {"rtsold_flags", TYPE_STRING, {NULL}},
